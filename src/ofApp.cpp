@@ -6,6 +6,7 @@ filepath = filesystem::path("../../src");
 shader.load(filepath/"render.vert",filepath/"render.frag");
 
 ofBackground(255);
+glPointSize(10.);
 
 w = ofGetWidth();
 h = ofGetHeight();
@@ -16,7 +17,7 @@ s.begin();
 ofClear(0);
 s.end();
 
-plane.set(64,64,256,256);
+plane.set(64 * glm::golden_ratio<float>(),64,256,256);
 
 cam.setPosition(glm::vec3(0,-10,35));
 cam.lookAt(glm::vec3(0.0));
@@ -26,7 +27,6 @@ light.setup();
 light.enable();
 light.setPosition(glm::vec3(0,0,35));
 
-
 }
 
 void ofApp::draw() {
@@ -35,9 +35,9 @@ cam.begin();
 shader.begin();
 
 shader.setUniform3f("u_light_pos",light.getPosition());
-shader.setUniform4f("u_color",glm::vec4(1.,0.,0.,1.));
+shader.setUniform4f("u_color",glm::vec4(.05,.05,.05,1.));
 
-plane.draw();
+plane.drawVertices();
 
 shader.end();
 cam.end(); 
